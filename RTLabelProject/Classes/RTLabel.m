@@ -237,6 +237,7 @@
 	{
 		NSInteger index = [textComponents indexOfObject:component];
 		component.componentIndex = index;
+		if (component.text == nil) continue;
 		
 		if ([component.tagLabel caseInsensitiveCompare:@"i"] == NSOrderedSame)
 		{
