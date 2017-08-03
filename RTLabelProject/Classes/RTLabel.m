@@ -111,6 +111,8 @@
 - (NSArray*) colorForHex:(NSString *)hexColor;
 - (void)render;
 
+@property (nonatomic,strong) UIView *accessibleView;
+
 #pragma mark -
 #pragma mark styling
 
@@ -160,6 +162,12 @@
 	_lineSpacing = 3;
 	_currentSelectedButtonComponentIndex = -1;
 	_paragraphReplacement = @"\n";
+	
+	self.accessibleView = [UIView viewWithFrame:self.bounds];
+	self.accessibleView.accessibilityTraits = UIAccessibilityTraitStaticText;
+	self.accessibleView.isAccessibilityElement = YES;
+	self.accessibleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self addSubview:self.accessibleView];
 	
 	
 	#if TARGET_OS_IOS
@@ -370,6 +378,9 @@
 					
 					[button setBackgroundColor:[UIColor colorWithWhite:0 alpha:0]];
 					[button setComponentIndex:linkableComponents.componentIndex];
+
+					button.accessibilityLabel = linkableComponents.text;
+					button.accessibilityTraits = UIAccessibilityTraitLink;
 					
 					[button setUrl:[NSURL URLWithString:(linkableComponents.attributes)[@"href"]]];
 					[button addTarget:self action:@selector(onButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
@@ -394,6 +405,12 @@
 	CFRelease(framesetter);
 	CTFrameDraw(frame, context);
     CFRelease(frame);
+	
+
+	self.accessibleView.accessibilityLabel = self.plainText;
+	[self addSubview:self.accessibleView];
+	[self sendSubviewToBack:self.accessibleView];
+
 }
 
 #pragma mark -
