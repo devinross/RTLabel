@@ -426,7 +426,7 @@
 	CGFloat firstLineIndent = 0.0; 
 	CGFloat headIndent = 0.0; 
 	CGFloat tailIndent = 0.0; 
-	CGFloat lineHeightMultiple = 1.0; 
+	CGFloat lineHeightMultiple = _lineHeight;
 	CGFloat maxLineHeight = 0; 
 	CGFloat minLineHeight = 0; 
 	CGFloat paragraphSpacing = 0.0;
