@@ -163,7 +163,7 @@
 	_currentSelectedButtonComponentIndex = -1;
 	_paragraphReplacement = @"\n";
 	
-	self.accessibleView = [UIView viewWithFrame:self.bounds];
+	self.accessibleView = [[UIView alloc] initWithFrame:self.bounds];
 	self.accessibleView.accessibilityTraits = UIAccessibilityTraitStaticText;
 	self.accessibleView.isAccessibilityElement = YES;
 	self.accessibleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
