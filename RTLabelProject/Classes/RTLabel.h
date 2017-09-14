@@ -95,6 +95,7 @@ typedef enum
 @property (nonatomic, assign) NSInteger currentSelectedButtonComponentIndex;
 @property (nonatomic, assign) CFRange visibleRange;
 @property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, assign) CGFloat lineHeight;
 
 // set text
 - (void)setText:(NSString*)text;
