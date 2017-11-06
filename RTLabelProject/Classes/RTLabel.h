@@ -37,6 +37,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreText/CoreText.h>
+@class RTLabelButton;
 
 typedef enum
 {
@@ -97,6 +98,9 @@ typedef enum
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, assign) CGFloat lineHeight;
 
+@property (nonatomic, readonly) NSArray <RTLabelButton*> *buttons;
+
+
 // set text
 - (void)setText:(NSString*)text;
 + (RTLabelExtractedComponent*)extractTextStyleFromText:(NSString*)data paragraphReplacement:(NSString*)paragraphReplacement;
@@ -114,4 +118,9 @@ typedef enum
 
 
 
+@end
+
+@interface RTLabelButton : UIButton
+@property (nonatomic, assign) NSInteger componentIndex;
+@property (nonatomic) NSURL *url;
 @end

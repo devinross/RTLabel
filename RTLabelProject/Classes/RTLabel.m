@@ -37,12 +37,12 @@
 
 #import "RTLabel.h"
 
-@interface RTLabelButton : UIButton
-@property (nonatomic, assign) NSInteger componentIndex;
-@property (nonatomic) NSURL *url;
-@end
+
 
 @implementation RTLabelButton
+- (NSString*) description{
+	return [NSString stringWithFormat:@"<RTLabelButton %@ %@>",[NSValue valueWithCGRect:self.frame],self.url];
+}
 @end
 
 @implementation RTLabelComponent
@@ -112,6 +112,7 @@
 - (void)render;
 
 @property (nonatomic,strong) UIView *accessibleView;
+@property (nonatomic,strong) NSArray <RTLabelButton*> *clickButtons;
 
 #pragma mark -
 #pragma mark styling
@@ -346,9 +347,13 @@
 	self.optimumSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, [self.plainText length]), nil, constraint, &range);
 	
 	
+
+	
 	if (self.currentSelectedButtonComponentIndex==-1)
 	{
 		// only check for linkable items the first time, not when it's being redrawn on button pressed
+		self.clickButtons = nil;
+		NSMutableArray *btns = [NSMutableArray array];
 		
 		for (RTLabelComponent *linkableComponents in links)
 		{
@@ -388,13 +393,19 @@
 					[button addTarget:self action:@selector(onButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
                     [self addSubview:button];
 					
+					
+					[btns addObject:button];
 				}
 				
 				origin.y = self.frame.size.height - origin.y;
 				height = origin.y + descent + _lineSpacing;
 			}
 		}
+		self.clickButtons = btns.copy;
+		TKLog(@"%@",self.clickButtons);
 	}
+	
+
 	
 	self.visibleRange = CTFrameGetVisibleStringRange(frame);
 
@@ -1126,5 +1137,8 @@
 	return @{@"textComponents": component.textComponents, @"plainText": component.plainText};
 }
 
+- (NSArray<RTLabelButton*>*) buttons{
+	return self.clickButtons;
+}
 
 @end
