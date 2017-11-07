@@ -402,7 +402,6 @@
 			}
 		}
 		self.clickButtons = btns.copy;
-		TKLog(@"%@",self.clickButtons);
 	}
 	
 
