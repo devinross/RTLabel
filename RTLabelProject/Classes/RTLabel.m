@@ -445,7 +445,7 @@
 	CTLineBreakMode lineBreakMode = (CTLineBreakMode)_lineBreakMode;
 	CGFloat lineSpacing = _lineSpacing;
 	
-	for (NSUInteger i=0; i<[[attributes allKeys] count]; i++)
+	for (NSUInteger i=0; i<attributes.allKeys.count; i++)
 	{
 		NSString *key = [attributes allKeys][i];
 		id value = attributes[key];
@@ -950,7 +950,7 @@
 			tag = [text substringFromIndex:2];
 			if (position!=NSNotFound)
 			{
-				for (NSInteger i=[components count]-1; i>=0; i--)
+				for (NSInteger i=components.count-1; i>=0; i--)
 				{
 					RTLabelComponent *component = components[i];
 					if (component.text==nil && [component.tagLabel isEqualToString:tag])
@@ -969,20 +969,23 @@
 			tag = textComponents[0];
 			//NSLog(@"start of tag: %@", tag);
 			NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-			for (NSUInteger i=1; i<[textComponents count]; i++)
+			for (NSUInteger i=1; i<textComponents.count; i++)
 			{
-				NSArray *pair = [textComponents[i] componentsSeparatedByString:@"="];
-				if ([pair count] > 0) {
-					NSString *key = [pair[0] lowercaseString];
+				NSArray <NSString *> *pair = [textComponents[i] componentsSeparatedByString:@"="];
+				if (pair.count > 0) {
+					NSString *key = pair[0].lowercaseString;
 					
-					if ([pair count]>=2) {
+					if (pair.count >= 2) {
 						// Trim " charactere
-						NSString *value = [[pair subarrayWithRange:NSMakeRange(1, [pair count] - 1)] componentsJoinedByString:@"="];
-						value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, 1)];
-						value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSLiteralSearch range:NSMakeRange([value length]-1, 1)];
+						NSArray <NSString *> *end = [pair subarrayWithRange:NSMakeRange(1, pair.count - 1)];
+						NSString *value = [end componentsJoinedByString:@"="];
+						if(value.length > 0){
+							value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, 1)];
+							value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"" options:NSLiteralSearch range:NSMakeRange(value.length-1, 1)];
+						}
 						
 						attributes[key] = value;
-					} else if ([pair count]==1) {
+					} else if (pair.count==1) {
 						attributes[key] = key;
 					}
 				}
@@ -1032,10 +1035,10 @@
 			{
 				attributes = [NSMutableDictionary dictionary];
 				NSArray *rawAttributes = [tag componentsSeparatedByString:@" "];
-				for (NSUInteger i=1; i<[rawAttributes count]; i++)
+				for (NSUInteger i=1; i<rawAttributes.count; i++)
 				{
 					NSArray *pair = [rawAttributes[i] componentsSeparatedByString:@"="];
-					if ([pair count]==2)
+					if (pair.count==2)
 					{
 						attributes[pair[0]] = pair[1];
 					}
